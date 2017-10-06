@@ -183,6 +183,9 @@ async def on_message(message):
                                               '%s<@%s> loses his bet.' % (jewbot.prefix, message.author.id))
         elif message.content.startswith('/8ball '):
             await client.send_message(message.channel, magic_ball(message.author.id))
+        elif message.content.startswith('/fortune'):
+            msg = "<@%s>, your fortune for today:\n```%s\n```"
+            await client.send_message(message.channel, msg % (message.author.id, fortune(message.author.id)))
         elif message.content.startswith('/help') or message.content.startswith('/commands'):
             help_message = """
 `Available commands:`
@@ -208,6 +211,8 @@ async def on_message(message):
 
 **/trivia** *[categories]* - asks a trivia question. You can win %s if you answer correctly.
 **/categories** - sends you a list of available trivia categories
+
+**/fortune** - tells your fortune for today
 
             """ % (jewbot.bet_win_cut * 100, jewbot.bet_win_cut * 100, jewbot.currency_symbol)
             await client.send_message(message.author, help_message)
@@ -562,6 +567,124 @@ def magic_ball(user_id):
         'Very doubtful, <@%s>.'
     ]
     return answers[random.randint(0, len(answers) - 1)] % user_id
+
+
+def fortune(user_id):
+    date = time.strftime("S@lt1!(for reasons)%Y%m%d")
+    random.seed(date.join(user_id))
+    answers = [
+        # Spades
+        'Sickness of a friend. Go at once!',
+        'Great disappointment.',
+        'Look out for trouble within a few days.',
+        'A scandal will be barely escaped.',
+        'A false friend. Beware.',
+        'Do not talk too much - listen.',
+        'You have a few trustworthy friends and one unsuspected enemy.',
+        'You will shortly occupy a strange bed.',
+        'Your business will be poor for a short time.',
+        'You will hear something unpleasant.',
+        'You know him - but not as well as you think.',
+        'A friend is false - but keep your own counsel.',
+        'Forgive - but do not trust again.',
+        'Death of a friend.',
+        'A sudden journey.',
+        'Guests coming. Means trouble.',
+        'You will hear of a wedding and be disappointed.',
+        'Be careful of a dark, elderly man.',
+        'You will be invited to a party. Think, before you accept!',
+        'A dark woman is trying to get you into trouble.',
+        'Be cheerful - no matter what happens.',
+        'A business disappointment unless you proceed cautiously.',
+        'Pay no attention to something you are going to hear.',
+        'No matter what he says, don\'t trust him.',
+        'A pretty woman wants to see you. Avoid her.',
+        'A present will be offered to you. Refuse it.',
+        # Hearts
+        'You will soon have cause to forget your money troubles.',
+        'Your next love affair will surprise you.',
+        'You are going to move to a new house.',
+        'A wedding in the near future.',
+        'You have been wishing for something. Do not give up hope.',
+        'Do not wait too long before saying "Yes".',
+        'Be guided by this number - 7.',
+        'You have people near you who are not true.',
+        'Be careful in your business dealings for the next few days.',
+        'Happiness from an unexpected source.',
+        'Be very kind when you meet your newest friend.',
+        'Be very, very careful when you see a certain blonde.',
+        'You will soon meet the one you most want to meet.',
+        'A serious quarrel. Reconciliation depends on you.',
+        'Good luck will be with you early in the month.',
+        'The one who cares for you is anxious for a letter.',
+        'You are going to marry more than once.',
+        'You are not shrewd enough.',
+        'A long motor trip - with a surprise at the end.',
+        'This is your lucky number - 7.',
+        'A woman is coming between you and your beloved.',
+        'Good luck coming to you.',
+        'A change in the life of a true friend.',
+        'You are continually in someone\'s thoughts.',
+        'A woman will be the cause of contentment for you soon.',
+        'A letter. Act on it at once.',
+        # Clubs
+        'A short trip coming. Important.',
+        'Good news in two weeks.',
+        'You are going to marry sooner than you expect.',
+        'Marriage ahead.',
+        'A meeting soon with someone who will be interested in you.',
+        'Money coming to you - but a little trouble about it.',
+        'Live your own life.',
+        'Next winter you will go on a long trip.',
+        'You have many friends. But one is not loyal to you.',
+        'Money is going to be willed to you',
+        'The one you marry will bring you wealth.',
+        'A jealous woman.',
+        'Do not give him any hope.',
+        'A present.',
+        'A surprise.',
+        'You have long been loved by the one you least suspect.',
+        'Good business in sight.',
+        'You will soon go on a long trip.',
+        'Your troubles will vanish. Happiness ahead.',
+        'Do not let talk of jealous persons bother you.',
+        'A relative is going to be ill, but will recover.',
+        'A big surprise coming to you.',
+        'Keep up your courage a little longer. Better things in sight for you.',
+        'Your life\'s romance is about to begin.',
+        'A woman is going to tell a lie that will hurt you.',
+        'You need self confidence. Otherwise you will lose.',
+        # Diamonds
+        'A ring.',
+        'Small sum of money coming to you.',
+        'Pleasant news is coming to you.',
+        'A wedding dress.',
+        'A pleasant surprise.',
+        'A stranger will ask you to the theatre. Accept.',
+        'A long trip in the near future.',
+        'A turn for the better.',
+        'Your wish.',
+        'Wealth beyond your fondest dreams.',
+        'An engagement will be broken because of you.',
+        'A woman will soon invite your to her home. Go!',
+        'A new friend will mean the turning point in your life.',
+        'An important letter.',
+        'An enjoyable trip for you soon.',
+        'You owe someone a letter. Write it at once.',
+        'A conference that will benefit you.',
+        'A dinner invitation.',
+        'A stranger who will turn into a good friend.',
+        'You want money. Be patient.',
+        'You will sell something and get a good price.',
+        'Your wish.',
+        'Good luck.',
+        'You are going to be happier than you dared hope.',
+        'The best friend you have will help you.',
+        'A man is working to make things come out right for you.'
+    ]
+    answer = answers[random.randint(0, len(answers) - 1)]
+    random.seed()
+    return answer
 
 
 def set_cd(ability, user_id):
